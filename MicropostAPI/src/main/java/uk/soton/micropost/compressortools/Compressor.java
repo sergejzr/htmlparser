@@ -42,17 +42,17 @@ public class Compressor {
 	}
 	public static void main(String[] args) {
 		String folders[]=new String[]{
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/elections",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/brexit",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/lightpollution",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/voteremain",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/voteleave",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/votestay",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/britainout",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/posbrexit",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/negbrexit",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/negusa",
-				"/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/posusa",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/elections",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/brexit",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/lightpollution",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/voteremain",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/voteleave",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/votestay",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/britainout",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/posbrexit",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/negbrexit",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/negusa",
+				"/media/zerr/BA0E0E3E0E0DF3E3/tweets/posusa",
 				
 				
 				
