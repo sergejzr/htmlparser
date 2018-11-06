@@ -31,11 +31,11 @@ import org.jsoup.select.Elements;
 public class FileParser {
 	public static void main(String[] args) {
 		FileParser fp = new FileParser();
-		
-		String foldername="brexit";
-			fp.parseZipExtern(new File("/media/zerr/BA0E0E3E0E0DF3E3/tweets/" + foldername + "zip/"),
-					new File("/media/zerr/BA0E0E3E0E0DF3E3/tweets/" + foldername + ".csv"),
-							new File("cleartmp.sh"), new File("/media/zerr/BA0E0E3E0E0DF3E3/tmp"));
+	
+		String foldername="tweetsdl";
+			fp.parseZipExtern(new File("/home/zerr/" + foldername + "zip/"),
+					new File("/media/ssddrive/brexittweets/" + foldername + ".csv"),
+							new File("cleartmp.sh"), new File("/media/ssdrive/tmp/"));
 
 		int j = 0;
 		j++;

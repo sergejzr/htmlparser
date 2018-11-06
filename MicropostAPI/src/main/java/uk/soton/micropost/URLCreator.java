@@ -18,7 +18,7 @@ public class URLCreator {
 	public static void main(String[] args) {
 		
 	
-		File indir = new File("/media/zerr/BA0E0E3E0E0DF3E3/brexittweets/");
+		File indir = new File("/media/ssddrive/tweetsexample/");
 		if(args.length>0)
 		{
 			indir = new File(args[0]);
