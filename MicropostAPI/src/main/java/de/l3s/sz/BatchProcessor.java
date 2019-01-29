@@ -20,19 +20,35 @@ import org.jsoup.select.Elements;
 
 public class BatchProcessor {
 	File dir;
-	private FileWriter fw;
+	private FileWriter twitterfw;
+	private FileWriter linkedinfw;
+	private FileWriter xingfw;
+	ArrayList<File> twitterjsons = new ArrayList<>();
+	ArrayList<File> linkedinjsons = new ArrayList<>();
+	ArrayList<File> xingjsons = new ArrayList<>();
 
-	public BatchProcessor(File dir, File csvout) throws IOException {
+	public BatchProcessor(File dir, File twittercsvout,File xingprofilecsvout,File linkedincsvout) throws IOException {
 		this.dir = dir;
-		fw = new FileWriter(csvout);
+		twitterfw = new FileWriter(twittercsvout);
+		linkedinfw=new FileWriter(linkedincsvout);
+		xingfw=new FileWriter(xingprofilecsvout);
 	}
 
 	public static void main(String[] args) {
 		BatchProcessor bp;
 		try {
-			bp = new BatchProcessor(new File("/home/zerr/tweetsdl/tweettest/"),new File("/home/zerr/tweetsdl/tweettest/profiles.csv"));
+			bp = new BatchProcessor(new File("/home/zerr/tweetsdl/profiles/"),new File("/home/zerr/tweetsdl/profiles/twitter.csv"),new File("/home/zerr/tweetsdl/profiles/xingprofile.csv"),new File("/home/zerr/tweetsdl/profiles/linkedinprofile.csv"));
+			bp.getherHTML();
+			
 			ArrayList<Hashtable<String, String>> items = bp.extractURLS();
-			bp.addRecordAsynchron(items,bp.fw);
+			bp.addRecordAsynchron(items,bp.twitterfw);
+			
+			bp.parsexing();
+			bp.xingfw.close();
+			
+			bp.parselinkedin();
+			bp.linkedinfw.close();
+			
 			// System.out.println(items);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -42,16 +58,143 @@ public class BatchProcessor {
 
 	}
 
-	private ArrayList<Hashtable<String, String>> extractURLS() {
-		ArrayList<File> jsons = new ArrayList<>();
-		ArrayList<Hashtable<String, String>> ret=new ArrayList<>();
-		for (File f : dir.listFiles()) {
-			if (f.getName().endsWith(".html")) {
-				jsons.add(f);
+	private void parselinkedin() {
+
+		try {
+			linkedinfw.write("name"+"\t");
+			linkedinfw.write("ocupation"+"\t");
+			
+			
+			
+			linkedinfw.write("location"+"\t");
+			
+		
+			linkedinfw.write("since\n");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		for(File f:linkedinjsons){
+			try {
+				Document doc = Jsoup.parse(f, "UTF-8", "https://linkedin.com");
+				
+				Elements nameel=doc.select("h1[class~=pv-top-card-section__name]");
+				
+				linkedinfw.write(nameel.get(0).text()+"\t");
+				
+				Elements ocupationel=doc.select("h2[class~=section__headline]");
+				
+				linkedinfw.write(ocupationel.get(0).text()+"\t");
+				
+				Elements locationel=doc.select("h3[class~=section__location]");
+				
+				linkedinfw.write(locationel.get(0).text()+"\t");
+				
+				Elements cventryels=doc.select("h4[class~=entity__date]");
+				linkedinfw.write(cventryels.get(0).text()+"\n");
+				
+				
+				
+				int z=0;
+				z++;
+				
+			}catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		
+	}
+
+	private void parsexing() {
+		
+		try {
+			xingfw.write("name"+"\t");
+			xingfw.write("ocupation"+"\t");
+			
+			
+			
+			xingfw.write("location"+"\t");
+			
+		
+			xingfw.write("since\n");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+
+		
+		
+		for(File f:xingjsons){
+		try {
+			Document doc = Jsoup.parse(f, "UTF-8", "https://xing.com");
+			
+			Elements nameel=doc.select("h2[class~=userName] span");
+			
+			xingfw.write(nameel.get(0).text()+"\t");
+			
+			Elements ocupationel=doc.select("div[class~=occupationTextLink] p");
+			
+			xingfw.write(ocupationel.get(0).text()+"\t");
+			
+			Elements locationel=doc.select("div[class~=locationText] p");
+			
+			xingfw.write(locationel.get(0).text()+"\t");
+			
+			Elements cventryels=doc.select("div#work-experience [class~=cv-entry] [class=additional top]");
+			xingfw.write(cventryels.get(0).text()+"\n");
+		
+			
+			//Elements havesel=doc.select("div#haves li");
+			
+			/*
+			
+			for(
+			Element cventryel:doc.select("div#work-experience [class~=cv-entry]"))
+			{
+				
+			}
+*/
+
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		}
+		
+		
+		
+	}
+
+	private void getherHTML() {
+		
+		for (File f : dir.listFiles()) {
+			if (f.getName().endsWith(".html")) {
+				if(f.getName().contains("TWITTER")){
+				twitterjsons.add(f);
+				} else if(f.getName().contains("XING")){
+					xingjsons.add(f);
+					} else if(f.getName().contains("LINKEDIN")){
+						linkedinjsons.add(f);
+					}
+			}
+		}
+		
+	}
+
+	private ArrayList<Hashtable<String, String>> extractURLS() {
+
+		
+		ArrayList<Hashtable<String, String>> rettwitter=new ArrayList<>();
+
 		HashSet<String> idx=new HashSet<>();
-		for (File f : jsons) {
+		for (File f : twitterjsons) {
 			
 			try {
 				Document doc = Jsoup.parse(f, "UTF-8", "https://twitter.com");
@@ -135,7 +278,7 @@ public class BatchProcessor {
 					}
 					parsed.put("geostring", geostring);
 
-					ret.add(parsed);
+					rettwitter.add(parsed);
 				}
 			
 			} catch (IOException e) {
@@ -146,7 +289,7 @@ public class BatchProcessor {
 		}
 		
 
-		return ret;
+		return rettwitter;
 	}
 	HashSet<String> idx = new HashSet<>();
 	private void addRecordAsynchron(List<Hashtable<String, String>> run, FileWriter fw) throws IOException {
